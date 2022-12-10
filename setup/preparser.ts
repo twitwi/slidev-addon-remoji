@@ -37,9 +37,10 @@ export default definePreparserSetup(() => {
         ];
         var re = new RegExp(ranges.join("|"), "g");
 
+        const VOID = '​' // Zero-Width Space, to avoid merging a paragraph that would start with an emoji
         for (const i in lines) {
           for (const k in mapper) {
-            lines[i] = lines[i].replace(re, (m) => `<openmoji-${mapper[m]}/>`);
+            lines[i] = lines[i].replace(re, (m) => `${VOID}<openmoji-${mapper[m]}/>`);
           }
         }
       },
