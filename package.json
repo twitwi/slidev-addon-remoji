@@ -1,0 +1,14 @@
+{
+  "name": "slidev-addon-remoji",
+  "version": "0.1.0",
+  "description": "Replaces emoji by icons, especially useful for printing/exporting.",
+  "keywords": [
+    "slidev-addon",
+    "slidev"
+  ],
+  "author": "R. Emonet",
+  "license": "ISC",
+  "engines": {
+    "slidev": ">=0.37.0"
+  }
+}
