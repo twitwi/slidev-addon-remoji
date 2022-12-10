@@ -11,12 +11,17 @@ const fixer = (m) => {
         m['🐸'] = 'frog'
         m['🐹'] = 'hamster'
         m['🐻'] = 'bear'
+        m['🦄'] = 'unicorn'
+        m['🦁'] = 'lion'
     } else if (type === 'emojione') {
         m['🐼'] = 'panda-face'
     }
     // all
     m['👓'] = 'glasses'
     m['🐺'] = 'wolf'
+    m['🦒'] = 'giraffe'
+    m['🦓'] = 'zebra'
+    m['🦊'] = 'fox'
 }
 
 export default definePreparserSetup(() => {
