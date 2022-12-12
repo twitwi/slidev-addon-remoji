@@ -9,6 +9,6 @@
   "author": "R. Emonet",
   "license": "ISC",
   "engines": {
-    "slidev": ">=0.37.2"
+    "slidev": ">=0.38"
   }
 }

@@ -19,10 +19,12 @@ You can use them in your presentation by
 
 - directly depending to the github repository, e.g., `npm install github:twitwi/slidev-addon-remoji`
 
-- adding the addon in your frontmatter 
+- adding the addon in your frontmatter, the addonsConfig being optional and defaulting to openmoji
 
 ``` yaml
 addons:
   - slidev-addon-remoji
+addonsConfig:
+  remoji: twemoji
 ```
 

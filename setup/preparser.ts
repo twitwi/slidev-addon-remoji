@@ -1,33 +1,31 @@
 import { definePreparserSetup } from "@slidev/types";
 
-let mapper: any = {
-  // filled at the end this file
-  // then fixed with the following fixer
-};
-const fixer = (m) => {
-    const type = 'openmoji'
-    if (type === 'openmoji' || type === 'twemoji') {
-        m['🐼'] = 'panda'
-        m['🐸'] = 'frog'
-        m['🐹'] = 'hamster'
-        m['🐻'] = 'bear'
-        m['🦄'] = 'unicorn'
-        m['🦁'] = 'lion'
-    } else if (type === 'emojione') {
-        m['🐼'] = 'panda-face'
-    }
-    // all
-    m['👓'] = 'glasses'
-    m['🐺'] = 'wolf'
+const fixer = (m, type) => {
+  // all
+  m['👓'] = 'glasses'
+  m['🐺'] = 'wolf'
+  m['🦓'] = 'zebra'
+  m['🦊'] = 'fox'
+  if (type === 'openmoji' || type === 'twemoji' || type === 'noto') {
+    m['🐼'] = 'panda'
+    m['🐸'] = 'frog'
+    m['🐹'] = 'hamster'
+    m['🐻'] = 'bear'
+    m['🦄'] = 'unicorn'
+    m['🦁'] = 'lion'
     m['🦒'] = 'giraffe'
-    m['🦓'] = 'zebra'
-    m['🦊'] = 'fox'
+  } else if (type === 'emojione') {
+    delete m['🦒']
+    delete m['🦥']
+  }
 }
 
-export default definePreparserSetup(() => {
+export default definePreparserSetup(({headmatter}) => {
+  const mapper = baseMap()
+  const type = headmatter?.addonsConfig?.remoji ?? 'openmoji'
+  fixer(mapper, type)
   return [
     {
-      ///// cat ,,emoji-names |grep '^1F... ' | tr '[:upper:]' '[:lower:]' | sed -e 's@\([^ ]*\) *; \(.*\)@"\\\\U\1":"\2",@g' | tr ' ' '-'|sed -e 's@:@: @g' -e 's@-face"@"@g' | while read l; do echo -ne "$l\n";done > ,,emoji.jsonpart
       transformRawLines(lines) {
         var ranges = [
           "\ud83c[\udf00-\udfff]", // U+1F300 to U+1F3FF
@@ -40,7 +38,7 @@ export default definePreparserSetup(() => {
         const VOID = '​' // Zero-Width Space, to avoid merging a paragraph that would start with an emoji
         for (const i in lines) {
           for (const k in mapper) {
-            lines[i] = lines[i].replace(re, (m) => `${VOID}<openmoji-${mapper[m]}/>`);
+            lines[i] = lines[i].replace(re, (m) => mapper[m] ? `${VOID}<${type}-${mapper[m]}/>` : m);
           }
         }
       },
@@ -53,7 +51,7 @@ export default definePreparserSetup(() => {
  cat ,,emoji-names |grep '^1F... ' | tr '[:upper:]' '[:lower:]' | sed -e 's@\([^ ]*\) *; \(.*\)@"\\\\U\1":"\2",@g' | tr ' ' '-' | grep -v '"\(greek\|mahjong\|domino\|playing-card\|digit\|parenthesized-latin\|negative-circled\|negative-squared\|squared\|circled\|regional-indicator\|tortoise-shell\|rounded-symbol\|segmented-digit\|box-drawings\|block-sextant\|xiangqi\|black-chess\|white-chess\|neutral-chess\|emoji-component\|emoji-modifier\|alchemical-symbol\|clock-face\)-'| grep -v '[-]\(arrow-with\|arrow-shaft\|pointed\|north\|east\|west\|south\)[-]' | grep -v '"\(lower\|upper\)-\(left\|right\)-block'|grep -v '[-]block\(\|-[0-9][0-9]*\)"'|grep -v '[-]\(equihopper\|arrow\|arrowhead\|shaft\|triangle\|circle\|square\|diamond\|lozenge\|saltire\|cross\|asterisk\|medium-shade\|fill\)"' | while read l; do echo -ne "$l\n";done | tee ,,emoji.jsonpart | sed -e 's@\([^"]*\)",$@\1",//<emojione-\1/><twemoji-\1/><openmoji-\1/>@g' > ,,emoji-test.jsonpart
 */
 
-mapper = {
+const baseMap = () => ({
 "🄋":"dingbat-circled-sans-serif-digit-zero",
 "🄌":"dingbat-negative-circled-sans-serif-digit-zero",
 "🄯":"copyleft-symbol",
@@ -1360,5 +1358,5 @@ mapper = {
 "🯈":"stick-figure-leaning-right",
 "🯉":"stick-figure-with-dress",
 "🯊":"white-up-pointing-chevron",
-}
-fixer(mapper)
+})
+
