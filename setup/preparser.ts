@@ -8,15 +8,24 @@ const fixer = (m, type) => {
   m['🦊'] = 'fox'
   if (type === 'openmoji' || type === 'twemoji' || type === 'noto') {
     m['🐼'] = 'panda'
+    m['💻'] = 'laptop'
+    m['🤹'] = 'person-juggling'
     m['🐸'] = 'frog'
     m['🐹'] = 'hamster'
     m['🐻'] = 'bear'
     m['🦄'] = 'unicorn'
     m['🦁'] = 'lion'
     m['🦒'] = 'giraffe'
-  } else if (type === 'emojione') {
+  }
+  if (type === 'openmoji' || type === 'noto') {
+    m['🧑'] = 'person'
+  }
+  if (type === 'emojione') {
+    m['💻'] = 'laptop'
+    m['🤹'] = 'person-juggling'
     delete m['🦒']
     delete m['🦥']
+    delete m['🧑']
   }
 }
 
